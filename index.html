@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>장전 서약 — 매매 원칙 리마인더</title>
+<meta name="description" content="주식·코인 장 열리기 전, 내가 정한 매매 원칙과 오늘의 체크리스트를 다시 확인하는 무료 도구. 로그인 없이 브라우저에만 저장됩니다." />
+
+<!-- ================= Google AdSense =================
+     아래 client 값(ca-pub-XXXXXXXXXXXXXXXX)을 실제 발행자 ID로 교체하세요.
+     사이트가 애드센스 심사를 통과하기 전까지는 광고가 표시되지 않을 수 있습니다.
+==================================================== -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23A2702B'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='sans-serif'%3E誓%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <a class="wordmark" href="index.html">장전 서약</a>
+      <nav class="site-nav">
+        <a href="index.html" aria-current="page">체크리스트</a>
+        <a href="guide.html">원칙 가이드</a>
+      </nav>
+    </div>
+    <div class="clock">
+      <span id="clockTime">--:--:--</span>
+      <span class="date" id="clockDate">-</span>
+    </div>
+  </header>
+
+  <div>
+    <p class="tagline">오늘도 <em>감정</em>이 아니라, 내가 정한 <em>원칙</em>으로 매매합니다.</p>
+    <p class="intro">장 열리기 전, 나만의 매매 원칙과 오늘의 체크리스트를 다시 확인하는 무료 도구입니다. 회원가입이 없고, 작성한 내용은 이 브라우저에만 저장됩니다.</p>
+  </div>
+
+  <div class="ad-slot">
+    <span class="ad-label">광고</span>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="0000000000"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <section>
+    <div class="section-label">시장 현황</div>
+    <div class="markets" id="marketsRow"></div>
+  </section>
+
+  <section>
+    <div class="section-label">오늘의 서약</div>
+    <div class="card pledge-card">
+      <div class="pledge-head">
+        <div class="pledge-title">매매 전 체크리스트</div>
+        <div class="streaks">
+          <div class="streak-main" id="streakMain">연속 0일</div>
+          <div class="streak-best" id="streakBest">최고 기록 0일</div>
+        </div>
+      </div>
+      <ul class="checklist" id="checklist"></ul>
+      <div class="add-row">
+        <input type="text" id="checkInput" placeholder="체크 항목 추가, 예: 3연패 시 오늘은 쉰다" maxlength="120" />
+        <button class="add-btn" id="checkAddBtn">추가</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">나의 원칙</div>
+    <div id="principleGroups"></div>
+  </section>
+
+  <section class="card info-card">
+    <h3>알림은 이렇게 챙기세요</h3>
+    <ul class="reminder-list">
+      <li><span class="time">08:30</span> 한국장 개장 30분 전 (평일) — 매매 전 이 페이지를 열어보세요</li>
+      <li><span class="time">22:15</span> 미국장 개장 전 (평일 · 서머타임 시 22:30 개장, 아닐 시 23:30 개장)</li>
+      <li><span class="time">08:00</span> 코인 — 24시간 시장이라 매일 아침 점검을 권장합니다</li>
+    </ul>
+    <div class="save-note">이 사이트는 별도의 로그인·서버 저장이 없어 자동 알림을 보낼 수 없습니다. 휴대폰 알람이나 캘린더에 위 시간을 등록해두면 도움이 됩니다.</div>
+  </section>
+
+  <section class="card prose">
+    <h2>왜 매매 전 원칙을 다시 봐야 할까요</h2>
+    <p>많은 투자자가 손실을 보는 이유는 원칙이 없어서가 아니라, 원칙을 세워두고도 그 순간의 감정에 휩쓸려 지키지 못하기 때문입니다. 장전 서약은 거창한 전략 도구가 아니라, 장이 열리기 직전 딱 1분 동안 스스로에게 묻는 습관을 만들기 위한 페이지입니다.</p>
+    <p>손절선, 목표 수익률, 포지션 크기, 그리고 지금의 감정 상태까지 — 오늘 지킬 것을 미리 적어두고, 매매 전에 체크하는 것만으로도 충동적인 결정을 줄일 수 있습니다.</p>
+  </section>
+
+  <section>
+    <div class="section-label">원칙 가이드</div>
+    <div class="related-grid">
+      <a class="card related-card" href="stop-loss.html">
+        <span class="kicker">리스크 관리</span>
+        <span class="rc-title">손절매 원칙, 어떻게 정해야 할까</span>
+      </a>
+      <a class="card related-card" href="fear-and-greed.html">
+        <span class="kicker">투자 심리</span>
+        <span class="rc-title">공포와 탐욕을 다스리는 법</span>
+      </a>
+      <a class="card related-card" href="beginner-principles.html">
+        <span class="kicker">가이드</span>
+        <span class="rc-title">초보 투자자를 위한 원칙 10가지</span>
+      </a>
+      <a class="card related-card" href="guide.html">
+        <span class="kicker">전체 보기</span>
+        <span class="rc-title">원칙 가이드 12편 모두 보기 →</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="ad-slot">
+    <span class="ad-label">광고</span>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="0000000001"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <footer class="site-footer">
+    이 사이트는 투자 자문이 아니며, 투자 판단과 책임은 본인에게 있습니다. 모든 데이터는 서버로 전송되지 않고 이 브라우저에만 저장됩니다.
+    <div style="margin-top:8px;">
+      <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ================= timezone helpers ================= */
+  function getTzOffsetMs(date, timeZone) {
+    var dtf = new Intl.DateTimeFormat('en-US', {
+      timeZone: timeZone, hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    var parts = dtf.formatToParts(date).reduce(function (a, p) {
+      if (p.type !== 'literal') a[p.type] = p.value;
+      return a;
+    }, {});
+    var hour = parts.hour === '24' ? 0 : Number(parts.hour);
+    var asUTC = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), hour, Number(parts.minute), Number(parts.second));
+    return asUTC - date.getTime();
+  }
+
+  function zonedTimeToUtc(y, m, d, h, mi, timeZone) {
+    var utcGuess = Date.UTC(y, m - 1, d, h, mi, 0);
+    var offset = getTzOffsetMs(new Date(utcGuess), timeZone);
+    var utcMs = utcGuess - offset;
+    offset = getTzOffsetMs(new Date(utcMs), timeZone);
+    utcMs = utcGuess - offset;
+    return new Date(utcMs);
+  }
+
+  function getZonedParts(date, timeZone) {
+    var dtf = new Intl.DateTimeFormat('en-US', {
+      timeZone: timeZone, hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', weekday: 'short'
+    });
+    var parts = dtf.formatToParts(date).reduce(function (a, p) {
+      if (p.type !== 'literal') a[p.type] = p.value;
+      return a;
+    }, {});
+    return {
+      year: Number(parts.year), month: Number(parts.month), day: Number(parts.day),
+      hour: parts.hour === '24' ? 0 : Number(parts.hour),
+      minute: Number(parts.minute), second: Number(parts.second),
+      weekday: parts.weekday
+    };
+  }
+
+  var WD_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+  function kstDateString(date) {
+    var p = getZonedParts(date, 'Asia/Seoul');
+    return p.year + '-' + String(p.month).padStart(2, '0') + '-' + String(p.day).padStart(2, '0');
+  }
+
+  /* ================= market status ================= */
+  function getMarketStatus(now, tz, openH, openM, closeH, closeM) {
+    var p = getZonedParts(now, tz);
+    var wd = WD_INDEX[p.weekday];
+    var todayOpen = zonedTimeToUtc(p.year, p.month, p.day, openH, openM, tz);
+    var todayClose = zonedTimeToUtc(p.year, p.month, p.day, closeH, closeM, tz);
+
+    if (wd >= 1 && wd <= 5 && now >= todayOpen && now < todayClose) {
+      return { status: 'open', eventLabel: '마감까지', event: todayClose };
+    }
+
+    var cursor = new Date(now.getTime());
+    for (var i = 0; i < 10; i++) {
+      var cp = getZonedParts(cursor, tz);
+      var cwd = WD_INDEX[cp.weekday];
+      var candidateOpen = zonedTimeToUtc(cp.year, cp.month, cp.day, openH, openM, tz);
+      if (cwd >= 1 && cwd <= 5 && candidateOpen > now) {
+        return { status: 'closed', eventLabel: '개장까지', event: candidateOpen };
+      }
+      cursor = new Date(cursor.getTime() + 24 * 3600 * 1000);
+    }
+    return { status: 'closed', eventLabel: '개장까지', event: new Date(now.getTime() + 86400000) };
+  }
+
+  function formatCountdown(ms) {
+    if (ms < 0) ms = 0;
+    var totalMin = Math.floor(ms / 60000);
+    var days = Math.floor(totalMin / (60 * 24));
+    var hours = Math.floor((totalMin % (60 * 24)) / 60);
+    var mins = totalMin % 60;
+    if (days > 0) return days + '일 ' + hours + '시간';
+    if (hours > 0) return hours + '시간 ' + mins + '분';
+    var secs = Math.floor((ms % 60000) / 1000);
+    return mins + '분 ' + String(secs).padStart(2, '0') + '초';
+  }
+
+  function formatKstClock(date) {
+    var p = getZonedParts(date, 'Asia/Seoul');
+    return String(p.hour).padStart(2, '0') + ':' + String(p.minute).padStart(2, '0');
+  }
+
+  var MARKETS = [
+    { key: 'kr', name: '한국장', sub: 'KOSPI · KOSDAQ', tz: 'Asia/Seoul', open: [9, 0], close: [15, 30] },
+    { key: 'us', name: '미국장', sub: 'NASDAQ · NYSE', tz: 'America/New_York', open: [9, 30], close: [16, 0] }
+  ];
+
+  function renderMarkets() {
+    var now = new Date();
+    var row = document.getElementById('marketsRow');
+    var html = '';
+
+    MARKETS.forEach(function (m) {
+      var st = getMarketStatus(now, m.tz, m.open[0], m.open[1], m.close[0], m.close[1]);
+      var pillClass = st.status === 'open' ? 'open' : 'closed';
+      var pillText = st.status === 'open' ? '개장중' : '마감';
+      html += '' +
+        '<div class="card market">' +
+          '<div class="market-name">' + m.name + '</div>' +
+          '<div class="market-sub">' + m.sub + '</div>' +
+          '<span class="pill ' + pillClass + '">' + pillText + '</span>' +
+          '<div class="market-countdown">' + formatCountdown(st.event - now) + '<small>' + st.eventLabel + '</small></div>' +
+          '<div class="market-event-time">' + (st.status === 'open' ? '마감' : '개장') + ' ' + formatKstClock(st.event) + ' KST</div>' +
+        '</div>';
+    });
+
+    html += '' +
+      '<div class="card market">' +
+        '<div class="market-name">코인</div>' +
+        '<div class="market-sub">24시간 거래</div>' +
+        '<span class="pill always">거래중</span>' +
+        '<div class="market-countdown" style="font-size:14px; font-weight:500; color:var(--ink-muted); font-family:\'Noto Sans KR\',sans-serif;">쉬지 않는 시장일수록<br/>원칙이 더 필요합니다</div>' +
+      '</div>';
+
+    row.innerHTML = html;
+  }
+
+  function tickClock() {
+    var now = new Date();
+    document.getElementById('clockTime').textContent = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Seoul', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }).format(now) + ' KST';
+    document.getElementById('clockDate').textContent = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Seoul', month: 'long', day: 'numeric', weekday: 'short'
+    }).format(now);
+  }
+
+  /* ================= state (per-browser only) ================= */
+  var STORAGE_KEY = 'jangjeon-seoyak-state';
+
+  var DEFAULT_STATE = {
+    version: 1,
+    checklist: [
+      { id: 'c1', text: '오늘 매매할 대상이 내 원칙에 맞는가?', checked: false },
+      { id: 'c2', text: '손절선을 미리 정했는가?', checked: false },
+      { id: 'c3', text: '목표 수익률 · 청산 기준을 정했는가?', checked: false },
+      { id: 'c4', text: '포지션 크기가 내 규칙 범위 안인가?', checked: false },
+      { id: 'c5', text: '지금 공포 · 탐욕 · FOMO에 휘둘리고 있지 않은가?', checked: false }
+    ],
+    principles: [],
+    lastCheckDate: null,
+    streak: 0,
+    bestStreak: 0
+  };
+
+  var CATEGORIES = [
+    { key: 'common', label: '공통 원칙' },
+    { key: 'stock', label: '주식 원칙' },
+    { key: 'coin', label: '코인 원칙' }
+  ];
+
+  var state = null;
+  var saveTimer = null;
+  var uidCounter = 0;
+
+  function uid() {
+    uidCounter += 1;
+    return 'x' + Date.now().toString(36) + uidCounter.toString(36);
+  }
+
+  function cloneDefault() {
+    return JSON.parse(JSON.stringify(DEFAULT_STATE));
+  }
+
+  function applyDailyReset(s) {
+    var today = kstDateString(new Date());
+    if (s.lastCheckDate === today) return s;
+
+    if (s.lastCheckDate) {
+      var prevDate = new Date(s.lastCheckDate + 'T00:00:00Z');
+      var todayDate = new Date(today + 'T00:00:00Z');
+      var dayGap = Math.round((todayDate - prevDate) / 86400000);
+      var allChecked = s.checklist.length > 0 && s.checklist.every(function (c) { return c.checked; });
+      if (dayGap === 1 && allChecked) {
+        s.streak = (s.streak || 0) + 1;
+      } else {
+        s.streak = 0;
+      }
+      s.bestStreak = Math.max(s.bestStreak || 0, s.streak);
+    }
+    s.checklist.forEach(function (c) { c.checked = false; });
+    s.lastCheckDate = today;
+    return s;
+  }
+
+  function loadLocal() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+  }
+
+  function scheduleSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    }, 400);
+  }
+
+  /* ================= render: checklist ================= */
+  function renderChecklist() {
+    var ul = document.getElementById('checklist');
+    var html = state.checklist.map(function (c) {
+      return '' +
+        '<li class="check-row' + (c.checked ? ' checked' : '') + '" data-id="' + c.id + '">' +
+          '<input type="checkbox" ' + (c.checked ? 'checked' : '') + ' aria-label="' + escapeAttr(c.text) + '" />' +
+          '<span class="txt" contenteditable="true" spellcheck="false">' + escapeHtml(c.text) + '</span>' +
+          '<button class="row-del" title="삭제" aria-label="삭제">✕</button>' +
+        '</li>';
+    }).join('');
+    ul.innerHTML = html || '<li class="empty-note">체크 항목이 없습니다. 아래에서 추가해보세요.</li>';
+
+    document.getElementById('streakMain').textContent = '연속 ' + (state.streak || 0) + '일';
+    document.getElementById('streakBest').textContent = '최고 기록 ' + (state.bestStreak || 0) + '일';
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; });
+  }
+  function escapeAttr(s) {
+    return escapeHtml(s).replace(/"/g, '&quot;');
+  }
+
+  document.getElementById('checklist').addEventListener('click', function (e) {
+    var row = e.target.closest('.check-row');
+    if (!row) return;
+    var id = row.dataset.id;
+    var item = state.checklist.find(function (c) { return c.id === id; });
+    if (!item) return;
+    if (e.target.matches('input[type="checkbox"]')) {
+      item.checked = e.target.checked;
+      row.classList.toggle('checked', item.checked);
+      scheduleSave();
+    } else if (e.target.matches('.row-del')) {
+      state.checklist = state.checklist.filter(function (c) { return c.id !== id; });
+      renderChecklist();
+      scheduleSave();
+    }
+  });
+
+  document.getElementById('checklist').addEventListener('blur', function (e) {
+    if (!e.target.matches('.txt')) return;
+    var row = e.target.closest('.check-row');
+    var id = row.dataset.id;
+    var item = state.checklist.find(function (c) { return c.id === id; });
+    if (!item) return;
+    var newText = e.target.textContent.trim();
+    if (newText && newText !== item.text) {
+      item.text = newText;
+      scheduleSave();
+    } else {
+      e.target.textContent = item.text;
+    }
+  }, true);
+
+  document.getElementById('checklist').addEventListener('keydown', function (e) {
+    if (e.target.matches('.txt') && e.key === 'Enter') {
+      e.preventDefault();
+      e.target.blur();
+    }
+  });
+
+  document.getElementById('checkAddBtn').addEventListener('click', addChecklistItem);
+  document.getElementById('checkInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); addChecklistItem(); }
+  });
+  function addChecklistItem() {
+    var input = document.getElementById('checkInput');
+    var text = input.value.trim();
+    if (!text) return;
+    state.checklist.push({ id: uid(), text: text, checked: false });
+    input.value = '';
+    renderChecklist();
+    scheduleSave();
+  }
+
+  /* ================= render: principles ================= */
+  function renderPrinciples() {
+    var container = document.getElementById('principleGroups');
+    var html = CATEGORIES.map(function (cat) {
+      var items = state.principles.filter(function (p) { return p.category === cat.key; });
+      var rows = items.map(function (p, i) {
+        return '' +
+          '<li class="principle-row" data-id="' + p.id + '">' +
+            '<span class="idx">' + (i + 1) + '</span>' +
+            '<span class="txt" contenteditable="true" spellcheck="false">' + escapeHtml(p.text) + '</span>' +
+            '<button class="row-del" title="삭제" aria-label="삭제">✕</button>' +
+          '</li>';
+      }).join('');
+      return '' +
+        '<div class="card principle-group">' +
+          '<div class="group-title"><span class="dot"></span>' + cat.label + '</div>' +
+          '<ul class="principle-list">' + (rows || '<li class="empty-note">아직 작성한 원칙이 없습니다.</li>') + '</ul>' +
+          '<div class="add-row">' +
+            '<input type="text" class="principle-input" data-cat="' + cat.key + '" placeholder="' + cat.label + ' 추가" maxlength="160" />' +
+            '<button class="add-btn" data-cat="' + cat.key + '">추가</button>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+    container.innerHTML = html;
+  }
+
+  document.getElementById('principleGroups').addEventListener('click', function (e) {
+    if (e.target.matches('.add-btn')) {
+      addPrinciple(e.target.dataset.cat);
+      return;
+    }
+    var row = e.target.closest('.principle-row');
+    if (row && e.target.matches('.row-del')) {
+      var id = row.dataset.id;
+      state.principles = state.principles.filter(function (p) { return p.id !== id; });
+      renderPrinciples();
+      scheduleSave();
+    }
+  });
+
+  document.getElementById('principleGroups').addEventListener('keydown', function (e) {
+    if (e.target.matches('.principle-input') && e.key === 'Enter') {
+      e.preventDefault();
+      addPrinciple(e.target.dataset.cat);
+    }
+    if (e.target.matches('.principle-row .txt') && e.key === 'Enter') {
+      e.preventDefault();
+      e.target.blur();
+    }
+  });
+
+  document.getElementById('principleGroups').addEventListener('blur', function (e) {
+    if (!e.target.matches('.principle-row .txt')) return;
+    var row = e.target.closest('.principle-row');
+    var id = row.dataset.id;
+    var item = state.principles.find(function (p) { return p.id === id; });
+    if (!item) return;
+    var newText = e.target.textContent.trim();
+    if (newText && newText !== item.text) {
+      item.text = newText;
+      scheduleSave();
+    } else {
+      e.target.textContent = item.text;
+    }
+  }, true);
+
+  function addPrinciple(cat) {
+    var input = document.querySelector('.principle-input[data-cat="' + cat + '"]');
+    var text = input.value.trim();
+    if (!text) return;
+    state.principles.push({ id: uid(), category: cat, text: text });
+    renderPrinciples();
+    scheduleSave();
+    var newInput = document.querySelector('.principle-input[data-cat="' + cat + '"]');
+    if (newInput) newInput.focus();
+  }
+
+  /* ================= boot ================= */
+  function init() {
+    state = loadLocal() || cloneDefault();
+    if (!state.checklist) state.checklist = cloneDefault().checklist;
+    if (!state.principles) state.principles = [];
+    applyDailyReset(state);
+    renderChecklist();
+    renderPrinciples();
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    tickClock();
+    renderMarkets();
+    setInterval(tickClock, 1000);
+    setInterval(renderMarkets, 1000);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

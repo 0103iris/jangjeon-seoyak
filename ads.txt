@@ -1,0 +1,6 @@
+# 구글 애드센스 필수 파일 (ads.txt)
+# 아래 pub-XXXXXXXXXXXXXXXX 를 본인의 실제 발행자 ID로 교체한 뒤,
+# 이 파일을 사이트의 "루트 경로"(예: https://내도메인/ads.txt)에 그대로 올려야 합니다.
+# GitHub Pages를 쓴다면 index.html과 같은 폴더에 두면 됩니다.
+
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
